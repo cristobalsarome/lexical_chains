@@ -4,8 +4,7 @@ Created on Thu May  3 20:36:16 2018
 
 @author: cristobal
 """
-#References:Python Code to train a Hidden Markov Model, using NLTK 
-#https://gist.github.com/blumonkey/007955ec2f67119e0909
+
 from AuxFunctions import AuxFunctions as aux
 import nltk
 from nltk.corpus import wordnet
