@@ -5,12 +5,31 @@ Created on Thu May  3 20:36:16 2018
 @author: cristobal
 """
 
-from AuxFunctions import AuxFunctions as aux
+from auxiliary import AuxFunctions as aux
 import nltk
 import re
 from nltk.corpus import wordnet
 
 #nltk.download()
+class LexicalChain:
+    def __init__(self,word):
+        self.indexes=[]
+        self.words=[]
+        self.synonyms=[]
+        self.antonyms=[]
+        self.hypernyms=[]
+        self.hyponyms=[]
+        self.add(word,0)
+    def add(self,word,index):
+        self.indexes.append(index)
+        self.words.append(word)
+        self.synonyms.append(aux.findSynonyms(word))
+        self.antonyms.append(aux.findAntonyms(word))
+        self.hypernyms.append(aux.findHypernyms(word))
+        self.hyponyms.append(aux.findHyponyms(word))
+#    def tryAdd(word):
+        
+    
 
 textFile=open("texts/text_02.txt","r")
 text=textFile.read()
@@ -18,7 +37,11 @@ textFile.close()
 textSent=nltk.sent_tokenize(text)
 textWords=nltk.word_tokenize(text)
 wordPos=nltk.pos_tag(textWords)
-
+lc1=LexicalChain("dog")
+lc1.indexes
+lc1.words
+lc1.antonyms
+lc1.synonyms
 
 nouns=[]
 index=0
@@ -33,38 +56,5 @@ for item in wordPos:
 
 
 
-#synonyms = []
-#antonyms = []
-#hypernyms = []
-#hyponyms = []
-a=aux.findSynonyms("dog")
 
-ant=aux.findAntonyms("bad")
-
-test=aux.findHypernyms("dog")
-
-test=aux.findHypernyms(nouns[19])
-for syn in wordnet.synsets("dog"):
-    for l in syn.lemmas():
-#        synonyms.append(l.name())
-        if l.antonyms():
-            antonyms.append(l.antonyms()[0].name())
-    #[hyponyms.append(i.name()) for i in syn.closure(lambda s:s.hyponyms())]
-    
-    
-
-
-
-
-
-    
-#print(nouns)        
-wordnet.synsets("dog")
-wordnet.synset("dog.n.01") 
-
-syns=wordnet.synsets(nouns[1])
-syns=wordnet.synsets("love")
-lem=syns[0].lemmas()
-lem[0].antonyms()
- 
 

@@ -22,14 +22,14 @@ class AuxFunctions:
     def findHypernyms(word):
         hypernyms=[] 
         for syn in wordnet.synsets(word):
-            [hypernyms.append(i.name()) for i in syn.closure(lambda s:s.hypernyms(), depth=1)]
+            [hypernyms.append(i.name()) for i in syn.closure(lambda s:s.hypernyms(), depth=2)]
         return hypernyms
         
     
     def findHyponyms(word):
         hyponyms=[]  
         for syn in wordnet.synsets(word):
-            [hyponyms.append(i.name()) for i in syn.closure(lambda s:s.hyponyms(), depth=1)]
+            [hyponyms.append(i.name()) for i in syn.closure(lambda s:s.hyponyms(), depth=2)]
         return hyponyms
     
     
