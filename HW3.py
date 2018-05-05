@@ -13,41 +13,24 @@ from nltk.corpus import wordnet
 
 textFile=open("texts/text_02.txt","r")
 text=textFile.read()
+textFile.close()
 textSent=nltk.sent_tokenize(text)
 textWords=nltk.word_tokenize(text)
 wordPos=nltk.pos_tag(textWords)
 
 
 nouns=[]
+index=0
+wordIndex=[]
 for item in wordPos:
     if item[1][0]=="N":
         nouns.append(item[0])
+        wordIndex.append(index)
+    index+=1
+    
         
-#print(nouns)        
-wordnet.synsets("dog")
-wordnet.synset("dog.n.01") 
-
-syns=wordnet.synsets(nouns[1])
-syns=wordnet.synsets("love")
-lem=syns[0].lemmas()
-lem[0].antonyms()
-# An example of a synset:
-#print(syns[0].name())
- 
-# Just the word:
-#print(syns[0].lemmas())
 
 
-
-#hypo = lambda s: s.hyponyms()
-#hyper = lambda s: s.hypernyms()
-#dog=wordnet.synsets("dog")[0]
-#doglem=dog.lemmas()
-#dog.hypernyms()
-#doglem[1].hypernyms()
-##dog.antonyms()
-#dog.hyponyms()
-#hyperdog = set([i for i in dog.closure(lambda s:s.hypernyms())])
 
 synonyms = []
 antonyms = []
@@ -60,11 +43,15 @@ for syn in wordnet.synsets("dog"):
             antonyms.append(l.antonyms()[0].name())
     [hyponyms.append(i.name()) for i in syn.closure(lambda s:s.hyponyms())]
     [hypernyms.append(i.name()) for i in syn.closure(lambda s:s.hypernyms())]
+    
+
+#print(nouns)        
+wordnet.synsets("dog")
+wordnet.synset("dog.n.01") 
+
+syns=wordnet.synsets(nouns[1])
+syns=wordnet.synsets("love")
+lem=syns[0].lemmas()
+lem[0].antonyms()
  
-#print(set(synonyms))
-#print(set(antonyms))
-# 
-#hyponyms.append(set([i for i in dog.closure(lambda s:s.hyponyms())]))
-#[hyponyms.append(i.name()) for i in dog.closure(lambda s:s.hyponyms())]
-#dog.hyponyms()
 
