@@ -24,12 +24,48 @@ for item in wordPos:
     if item[1][0]=="N":
         nouns.append(item[0])
         
-print(nouns)        
+#print(nouns)        
 wordnet.synsets("dog")
 wordnet.synset("dog.n.01") 
 
-wordnet.synsets(nouns[1])
+syns=wordnet.synsets(nouns[1])
+syns=wordnet.synsets("love")
+lem=syns[0].lemmas()
+lem[0].antonyms()
+# An example of a synset:
+#print(syns[0].name())
+ 
+# Just the word:
+#print(syns[0].lemmas())
 
 
 
+#hypo = lambda s: s.hyponyms()
+#hyper = lambda s: s.hypernyms()
+#dog=wordnet.synsets("dog")[0]
+#doglem=dog.lemmas()
+#dog.hypernyms()
+#doglem[1].hypernyms()
+##dog.antonyms()
+#dog.hyponyms()
+#hyperdog = set([i for i in dog.closure(lambda s:s.hypernyms())])
+
+synonyms = []
+antonyms = []
+hypernyms = []
+hyponyms = [] 
+for syn in wordnet.synsets("dog"):
+    for l in syn.lemmas():
+        synonyms.append(l.name())
+        if l.antonyms():
+            antonyms.append(l.antonyms()[0].name())
+    [hyponyms.append(i.name()) for i in syn.closure(lambda s:s.hyponyms())]
+    [hypernyms.append(i.name()) for i in syn.closure(lambda s:s.hypernyms())]
+ 
+#print(set(synonyms))
+#print(set(antonyms))
+# 
+#hyponyms.append(set([i for i in dog.closure(lambda s:s.hyponyms())]))
+#[hyponyms.append(i.name()) for i in dog.closure(lambda s:s.hyponyms())]
+#dog.hyponyms()
 
