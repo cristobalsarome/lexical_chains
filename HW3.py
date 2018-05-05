@@ -52,7 +52,7 @@ class LexicalChain:
             self.bycomparison+=1
             return True
         else:
-            if aux.findSimilarity(0.85,word,self.words):
+            if aux.findSimilarity(0.90,word,self.words):
                 self.add(word,wordIndex,sentIndex)
                 #print("match!")
                 self.bysimilarity+=1
@@ -68,9 +68,10 @@ class LexicalChain:
         return chain
                 
         
-def main():           
+def main():
+    text_number="02"           
     #We set the path with the text to analyze
-    textFile=open("texts/text_01.txt","r")
+    textFile=open("texts/text_"+text_number".txt","r")
     text=textFile.read()
     textFile.close()
 
@@ -128,6 +129,9 @@ def main():
 
     Functions.printResult(lexChains)
     
+    text_file = open("texts/summary_"+text_number".txt", "w")
+    text_file.write(Functions.summarize(lexChains,sentences))
+    text_file.close()
     
 
 class Functions:                    
@@ -143,8 +147,18 @@ class Functions:
                     print(word+"("+str(c[word])+"), ",end='')
         def summarize(lexChains, sentences):
             summary=''
-            chain=lexChains[0]
-            chain.indexes
+            maxLen=0
+            for chain in lexChains:
+                if len(chain.words)>maxLen:
+                    maxLen=len(chain.words)
+                    mainChain=chain
+
+            sumSentences=set(mainChain.sentIndexes)
+            for sen in sumSentences:
+                summary=summary+sentences[sen]
+                
+            return summary
+            
             
             
         def test(lexChains):
