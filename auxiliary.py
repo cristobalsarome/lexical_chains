@@ -10,6 +10,7 @@ class AuxFunctions:
         synonyms=[]
         for syn in wordnet.synsets(word):
             for l in syn.lemmas():
+                
                 synsets.append(l)
         for item in synsets:
             type=re.findall('\..\.',item.synset().name())[0]
@@ -17,6 +18,8 @@ class AuxFunctions:
                 synonyms.append(item.name())
         return synonyms
     
+
+
     def findAntonyms(word):
         synsets=[]
         antonyms=[]
@@ -56,6 +59,35 @@ class AuxFunctions:
             if type==".n.":
                 hyponyms.append(hypo)
         return hyponyms
+    
+    def findHolonyms(word):
+        holonyms=[]
+        synsets=[]
+        for syn in wordnet.synsets(word):
+            synsets.extend(syn.member_holonyms())
+        for item in synsets:
+            type=re.findall('\..\.',item.name())[0]
+            holo=re.findall('.*?(?=\.)',item.name())[0]
+            if type==".n.":
+                holonyms.append(holo)
+        return holonyms
+    
+    def findSimilarity(threshold,word,bagWords):
+        for synset1 in wordnet.synsets(word):
+            for word2 in bagWords:
+                for synset2 in wordnet.synsets(word2):
+                    simil=synset1.wup_similarity(synset2)
+                    if (simil and(float(simil) > threshold)): 
+                            return True
+        return False
+                    
+
+
+    
+    
+    
+    
+    
 a=AuxFunctions.findHypernyms("dog")
 
 
