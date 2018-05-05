@@ -12,21 +12,21 @@ from nltk.corpus import wordnet
 
 #nltk.download()
 class LexicalChain:
-    def __init__(self,word):
+    def __init__(self,word,index):
         self.indexes=[]
         self.words=[]
         self.synonyms=[]
         self.antonyms=[]
         self.hypernyms=[]
         self.hyponyms=[]
-        self.add(word,0)
+        self.add(word,index)
     def add(self,word,index):
         self.indexes.append(index)
         self.words.append(word)
-        self.synonyms.append(aux.findSynonyms(word))
-        self.antonyms.append(aux.findAntonyms(word))
-        self.hypernyms.append(aux.findHypernyms(word))
-        self.hyponyms.append(aux.findHyponyms(word))
+        self.synonyms.extend(aux.findSynonyms(word))
+        self.antonyms.extend(aux.findAntonyms(word))
+        self.hypernyms.extend(aux.findHypernyms(word))
+        self.hyponyms.extend(aux.findHyponyms(word))
 #    def tryAdd(word):
         
     
@@ -37,11 +37,13 @@ textFile.close()
 textSent=nltk.sent_tokenize(text)
 textWords=nltk.word_tokenize(text)
 wordPos=nltk.pos_tag(textWords)
-lc1=LexicalChain("dog")
+lc1=LexicalChain("apple",15)
 lc1.indexes
 lc1.words
 lc1.antonyms
 lc1.synonyms
+lc1.hypernyms
+lc1.hyponyms
 
 nouns=[]
 index=0
