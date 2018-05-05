@@ -37,25 +37,22 @@ textFile.close()
 textSent=nltk.sent_tokenize(text)
 textWords=nltk.word_tokenize(text)
 wordPos=nltk.pos_tag(textWords)
-lc1=LexicalChain("apple",15)
-lc1.indexes
-lc1.words
-lc1.antonyms
-lc1.synonyms
-lc1.hypernyms
-lc1.hyponyms
 
 nouns=[]
 index=0
 wordIndex=[]
 for item in wordPos:
     if item[1][0]=="N":
-        nouns.append(item[0])
-        wordIndex.append(index)
+        nouns.append([item[0].lower(), index])
+#        wordIndex.append(index)
     index+=1
     
-        
-
+lexicalChains=[]
+lc1=LexicalChain(nouns[1][0],nouns[1][1])
+  
+for item in nouns:
+    
+    
 
 
 
