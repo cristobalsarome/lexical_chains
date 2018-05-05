@@ -34,7 +34,7 @@ class AuxFunctions:
         synsets=[]
         hypernyms=[] 
         for syn in wordnet.synsets(word):
-            for i in syn.closure(lambda s:s.hypernyms(), depth=2):
+            for i in syn.closure(lambda s:s.hypernyms(), depth=3):
                 synsets.append(i.name())
         for item in synsets:
             type=re.findall('\..\.',item)[0]
@@ -48,7 +48,7 @@ class AuxFunctions:
         synsets=[]
         hyponyms=[]  
         for syn in wordnet.synsets(word):
-            for i in syn.closure(lambda s:s.hyponyms(), depth=2):
+            for i in syn.closure(lambda s:s.hyponyms(), depth=3):
                 synsets.append(i.name())
         for item in synsets:
             type=re.findall('\..\.',item)[0]
