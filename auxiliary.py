@@ -1,14 +1,20 @@
 from nltk.corpus import wordnet
-
+import inspect
+import re
 
 class AuxFunctions:
     
     
     def findSynonyms(word):
+        synsets=[]
         synonyms=[]
         for syn in wordnet.synsets(word):
             for l in syn.lemmas():
-                synonyms.append(l.name())
+                synsets.append(l.name())
+#        for item in synsets:
+#            type=re.findall('\..\.',item.synset())[0]
+#            if type==".n.":
+#                synonyms.append(item.name())
         return synonyms
     
     def findAntonyms(word):
@@ -31,8 +37,9 @@ class AuxFunctions:
         for syn in wordnet.synsets(word):
             [hyponyms.append(i.name()) for i in syn.closure(lambda s:s.hyponyms(), depth=2)]
         return hyponyms
-    
-    
+
+a=AuxFunctions.findSynonyms("dog")
+  
 #    def wordnet_pos_code(tag):
 #	#Source:http://www.ling.helsinki.fi/~gwilcock/Tartu-2011/P2-nltk-2.xhtml
 #        if tag.startswith('NN'):
