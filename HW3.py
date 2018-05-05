@@ -7,6 +7,7 @@ Created on Thu May  3 20:36:16 2018
 
 from AuxFunctions import AuxFunctions as aux
 import nltk
+import re
 from nltk.corpus import wordnet
 
 #nltk.download()
@@ -32,19 +33,31 @@ for item in wordPos:
 
 
 
-synonyms = []
-antonyms = []
-hypernyms = []
-hyponyms = [] 
+#synonyms = []
+#antonyms = []
+#hypernyms = []
+#hyponyms = []
+a=aux.findSynonyms("dog")
+
+ant=aux.findAntonyms("bad")
+
+test=aux.findHypernyms("dog")
+
+test=aux.findHypernyms(nouns[19])
 for syn in wordnet.synsets("dog"):
     for l in syn.lemmas():
-        synonyms.append(l.name())
+#        synonyms.append(l.name())
         if l.antonyms():
             antonyms.append(l.antonyms()[0].name())
-    [hyponyms.append(i.name()) for i in syn.closure(lambda s:s.hyponyms())]
-    [hypernyms.append(i.name()) for i in syn.closure(lambda s:s.hypernyms())]
+    #[hyponyms.append(i.name()) for i in syn.closure(lambda s:s.hyponyms())]
+    
     
 
+
+
+
+
+    
 #print(nouns)        
 wordnet.synsets("dog")
 wordnet.synset("dog.n.01") 
