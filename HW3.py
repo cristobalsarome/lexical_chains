@@ -4,7 +4,7 @@ Created on Thu May  3 20:36:16 2018
 
 @author: cristobal
 """
-
+import sys
 from auxiliary import AuxFunctions as aux
 import nltk
 import re
@@ -51,9 +51,18 @@ lexicalChains=[]
 lc1=LexicalChain(nouns[1][0],nouns[1][1])
   
 for item in nouns:
+    if item
     
     
 
+    
+    
+lc1.indexes
+lc1.words
+lc1.antonyms
+lc1.synonyms
+lc1.hypernyms
+lc1.hyponyms
 
 
 
