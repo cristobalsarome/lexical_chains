@@ -9,7 +9,6 @@ from auxiliary import AuxFunctions as aux
 import nltk
 import re
 from nltk.corpus import wordnet
-
 #nltk.download()
 class LexicalChain:
     def __init__(self,word,wordIndex,sentIndex):
@@ -71,7 +70,7 @@ class LexicalChain:
 def main():
     text_number="02"           
     #We set the path with the text to analyze
-    textFile=open("texts/text_"+text_number".txt","r")
+    textFile=open("texts/text_"+text_number+".txt","r")
     text=textFile.read()
     textFile.close()
 
@@ -129,12 +128,12 @@ def main():
 
     Functions.printResult(lexChains)
     
-    text_file = open("texts/summary_"+text_number".txt", "w")
+    text_file = open("texts/summary_"+text_number+".txt", "w")
     text_file.write(Functions.summarize(lexChains,sentences))
     text_file.close()
     
 
-class Functions:                    
+class auxFun:                    
 
         def printResult(lexChains):
             i=0
