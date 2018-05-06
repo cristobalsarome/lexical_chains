@@ -67,21 +67,21 @@ class LexicalChain:
         cond6=word in self.holonyms
         
         #We check first for related word because is less expensive
-        if (cond1 or cond2 or cond3 or cond4 or cond5 or cond6):
+        if (cond1 or cond2 or cond3 or cond4 or cond5):# or cond6):
             self.add(word,wordIndex,sentIndex)
             #We keep track of the number of words added through
             #different criteria for tunning purposes
             self.bycomparison+=1
             return True
         else:
-            #Only if we dont find related words we compute the similarity
-            #of the new words with the existings words in the chain
-            if AuxFunctions.findSimilarity(0.90,word,self.words):
-                self.add(word,wordIndex,sentIndex)
-                #We keep track of the number of words added through
-                #different criteria for tunning purposes
-                self.bysimilarity+=1
-                return True
+#            #Only if we dont find related words we compute the similarity
+#            #of the new words with the existings words in the chain
+#            if AuxFunctions.findSimilarity(0.90,word,self.words):
+#                self.add(word,wordIndex,sentIndex)
+#                #We keep track of the number of words added through
+#                #different criteria for tunning purposes
+#                self.bysimilarity+=1
+#                return True
             return False
         
     def getChain(self):
@@ -235,7 +235,7 @@ class AuxFunctions:
 def main():
     #Main Method, we indicate here the number of the text
     #to explore and summarize
-    text_number="03"           
+    text_number="01"           
     #We set the path with the text to analyze
     textFile=open("texts/text_"+text_number+".txt","r")
     text=textFile.read()
