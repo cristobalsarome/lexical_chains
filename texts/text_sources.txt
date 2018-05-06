@@ -1,2 +1,3 @@
 text_01, https://learnenglishteens.britishcouncil.org/study-break/graded-reading/hidden-treasure-rocky-mountains-level-3
 text_02, http://www.english-for-students.com/The-Cabuliwallah.html
+text_03, https://learnenglishteens.britishcouncil.org/study-break/graded-reading/wheres-roxy-level-3

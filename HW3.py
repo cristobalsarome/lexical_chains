@@ -4,7 +4,6 @@ Created on Thu May  3 20:36:16 2018
 
 @author: cristobal
 """
-
 import nltk
 import re
 from nltk.corpus import wordnet
@@ -31,7 +30,6 @@ class LexicalChain:
         #We initialize the object with the first word added to
         #the chain
         self.add(word,wordIndex,sentIndex)
-
         self.closed=False
         #we keep record of how many words we add by
         #different method. This is usefull to adjuts the
@@ -40,6 +38,9 @@ class LexicalChain:
         self.bysimilarity=0
 
     def add(self,word,wordIndex,sentIndex):
+        #this method adds a new word and calls the 
+        #auxiliary methods to store related words
+        #(synonyms, antonyms, etc)
         self.wordIndexes.append(wordIndex)
         self.sentIndexes.append(sentIndex)
         self.words.append(word)
@@ -48,7 +49,16 @@ class LexicalChain:
         self.hypernyms.extend(AuxFunctions.findHypernyms(word))
         self.hyponyms.extend(AuxFunctions.findHyponyms(word))
         self.holonyms.extend(AuxFunctions.findHolonyms(word))
+        
     def checkAdd(self,word,wordIndex,sentIndex):
+        #This method checks a candidate word for
+        #addition to the list. If the result is positive
+        #it adds the word to the chain and return true.
+        #Otherwise ignores the word and returns false
+        #The decision is based on two main criteria
+        #1)Is equal to some of the related words
+        #2)Computing the similaryti function
+        #with wordnet (more expensive)
         cond1=word in self.words
         cond2=word in self.synonyms
         cond3=word in self.antonyms
@@ -56,18 +66,24 @@ class LexicalChain:
         cond5=word in self.hyponyms
         cond6=word in self.holonyms
         
-        #find similarity
+        #We check first for related word because is less expensive
         if (cond1 or cond2 or cond3 or cond4 or cond5 or cond6):
             self.add(word,wordIndex,sentIndex)
+            #We keep track of the number of words added through
+            #different criteria for tunning purposes
             self.bycomparison+=1
             return True
         else:
+            #Only if we dont find related words we compute the similarity
+            #of the new words with the existings words in the chain
             if AuxFunctions.findSimilarity(0.90,word,self.words):
                 self.add(word,wordIndex,sentIndex)
-                #print("match!")
+                #We keep track of the number of words added through
+                #different criteria for tunning purposes
                 self.bysimilarity+=1
                 return True
             return False
+        
     def getChain(self):
         #we compute the word counts with a dictionary
         #first we initialize to 0
@@ -79,11 +95,11 @@ class LexicalChain:
 
 class AuxFunctions:
     def findSynonyms(word):
+        #This functions returns a list of synonims of the input
         synsets=[]
         synonyms=[]
         for syn in wordnet.synsets(word):
             for l in syn.lemmas():
-                
                 synsets.append(l)
         for item in synsets:
             type=re.findall('\..\.',item.synset().name())[0]
@@ -92,6 +108,7 @@ class AuxFunctions:
         return synonyms
     
     def findAntonyms(word):
+        #This functions returns a list of antonyms of the input
         synsets=[]
         antonyms=[]
         for syn in wordnet.synsets(word):
@@ -105,6 +122,7 @@ class AuxFunctions:
         return antonyms
         
     def findHypernyms(word):
+        #This functions returns a list of hypernyms of the input
         synsets=[]
         hypernyms=[] 
         for syn in wordnet.synsets(word):
@@ -115,10 +133,10 @@ class AuxFunctions:
             hyper=re.findall('.*?(?=\.)',item)[0]
             if type==".n.":
                 hypernyms.append(hyper)
-        return hypernyms
-        
+        return hypernyms        
     
     def findHyponyms(word):
+        #This functions returns a list of hyponyms of the input
         synsets=[]
         hyponyms=[]  
         for syn in wordnet.synsets(word):
@@ -132,6 +150,7 @@ class AuxFunctions:
         return hyponyms
     
     def findHolonyms(word):
+        #This functions returns a list of holonyms of the input
         holonyms=[]
         synsets=[]
         for syn in wordnet.synsets(word):
@@ -144,16 +163,23 @@ class AuxFunctions:
         return holonyms
     
     def findSimilarity(threshold,word,bagWords):
+        #This functions compute the similarity a word and a word list
+        #using the wup_similarity function. The parameter threshold
+        #can be used as a tunning parameter. It returns true if the
+        #similarity is greater than the threshold for any of the words
+        #and false otherwise. This is an expensive function, specially
+        #if the word list to compare contains many elements.
         for synset1 in wordnet.synsets(word):
             for word2 in bagWords:
                 for synset2 in wordnet.synsets(word2):
                     simil=synset1.wup_similarity(synset2)
                     if (simil and(float(simil) > threshold)): 
                             return True
-        return False
-                    
+        return False                    
 
     def printResult(lexChains):
+        #This function prints the results in the console
+        #as requested in the assignment
         i=0
         for chain in lexChains:
             print()
@@ -161,25 +187,28 @@ class AuxFunctions:
             c=chain.getChain()
             print("chain "+str(i)+': ',end='')
             for word in c:
-                print(word+"("+str(c[word])+"), ",end='')
+                print(word+"("+str(c[word])+"), ",end='')                
+                
     def summarize(lexChains, sentences):
+        #This function takes as input the lexical chains
+        #and the original sentences and returns a Summary
+        #in form of string.
         summary=''
         maxLen=0
         for chain in lexChains:
             if len(chain.words)>maxLen:
                 maxLen=len(chain.words)
                 mainChain=chain
-    
         sumSentences=set(mainChain.sentIndexes)
         for sen in sumSentences:
             summary=summary+sentences[sen]
-            
         return summary
             
             
             
     def test(lexChains):
-        
+        #Not important.
+        #Test functions used during development/debugging
         print(len(lexChains))
         
         for lc in lexChains[:20]: 
@@ -204,7 +233,9 @@ class AuxFunctions:
                 
         
 def main():
-    text_number="02"           
+    #Main Method, we indicate here the number of the text
+    #to explore and summarize
+    text_number="03"           
     #We set the path with the text to analyze
     textFile=open("texts/text_"+text_number+".txt","r")
     text=textFile.read()
@@ -215,9 +246,7 @@ def main():
     nouns=[]
     #We'll also have a dictionary that map the number of sentence
     #with the complete sentence text in order to create a summary
-    sentences=dict()
-    
-    
+    sentences=dict()   
 
     #We assign index to every word and sentence
     #so we can track down from the chains to the
